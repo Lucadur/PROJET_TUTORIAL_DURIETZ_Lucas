@@ -1,0 +1,47 @@
+body {
+    font-family: system-ui;
+}
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgrey;
+    align-items: center;
+    position: fixed;
+    top: 35%;
+    right: 39%;
+    background-color: lightblue;
+    border-radius: 5%;
+    padding: 30px;
+}
+.home-container button {
+    width: 178px;
+    height: 50px;
+    border-radius: 7%;
+    background-color: lightgray;
+}
+
+.tuto-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 45px
+}
+
+ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    flex-direction: column;
+}
+
+.tuto-container button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7%;
+    background-color: lightgray;
+}

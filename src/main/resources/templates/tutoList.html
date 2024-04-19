@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="tuto-container">
+    <h1>Tutoriels : </h1>
+
+    <ul>
+        <li th:each="tuto: ${tutos}">
+            <span>ID : <span th:text="${tuto.id}"></span></span><br>
+            <span>Nom : <span th:text="${tuto.name}"></span></span><br>
+            <span>Date de création : <span th:text="${tuto.createdDate}"></span></span><br><br>
+            <span>Description : <span th:text="${tuto.description}"></span></span><br>
+            <p>Auteur : <span th:text="${tuto.author.firstName} + ' ' + ${tuto.author.lastName}"></span></p>
+
+            <form th:action="@{/deleteTutorial}" method="post">
+                <input type="hidden" name="id" th:value="${tuto.id}">
+                <button type="submit">Supprimer Tutoriel</button>
+            </form>
+
+            <button class="edit-button" onclick="toggleForm('editForm_${tuto.id}')">Modifier Tutoriel</button>
+            <!-- Formulaire de modification (initialement caché) -->
+            <form id="editForm_${tuto.id}" th:action="@{/updateTutorial}" method="post" style="display: none;">
+                <input type="hidden" name="id" th:value="${tuto.id}">
+                <input type="text" name="name" placeholder="Titre" th:value="${tuto.name}">
+                <input type="text" name="description" placeholder="Description" th:value="${tuto.description}">
+                <input type="date" name="createdDate" th:value="${tuto.createdDate}">
+                <input type="text" name="authorEmail" placeholder="Email de l'auteur" th:value="${tuto.author.email}">
+                <button type="submit">Modifier Tutoriel</button>
+            </form>
+
+
+        </li>
+    </ul>
+
+    <form id="newTutorialForm" th:action="@{/createTutorial}" th:object="${newTutorial}" method="post">
+        <input type="text" name="name" placeholder="Titre" th:field="*{name}">
+        <input type="text" name="description" placeholder="Description" th:field="*{description}">
+        <input type="date" name="createdDate" th:field="*{createdDate}">
+        <input type="text" id="authorEmail" name="authorEmail" placeholder="Email de l'auteur"><br>
+        <button type="submit">Ajouter Tutoriel</button>
+    </form>
+    <br>
+    <br>
+    <a href="http://localhost:8080">Retour à la page d'accueil</a>
+
+    <script>
+        // Fonction pour afficher ou masquer le formulaire de modification
+        function toggleForm(formId) {
+            var form = document.getElementById(formId);
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+    </script>
+</div>
+</body>
+</html>

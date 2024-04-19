@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page de connexion</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1> Page de connexion </h1>
+    <div th:if="${error}" style="color: red;">Erreur : <span th:text="${error}"></span></div>
+    <form id="Connexion" th:action="@{/login}" th:object="${author}" method="post">
+        <input type="email" name="email" placeholder="Votre adresse email" th:field="*{email}">
+        <input type="password" name="password" placeholder="Votre mot de passe" th:field="*{password}">
+        <button type="submit">Se connecter</button>
+    </form>
+</body>
+</html>

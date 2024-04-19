@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Créer votre compte</h1>
+    <div th:if="${error}" style="color: red;">Erreur : <span th:text="${error}"></span></div>
+    <form id="newRegistration" th:action="@{/register}" th:object="${author}" method="post">
+        <input type="text" name="Nom" placeholder="Votre Nom" th:field="*{lastName}">
+        <input type="text" name="Prénom" placeholder="Votre Prénom" th:field="*{firstName}">
+        <input type="email" name="email" placeholder="Votre adresse email" th:field="*{email}">
+        <input type="password" name="password" placeholder="Votre mot de passe" th:field="*{password}">
+        <button type="submit">S'inscrire</button>
+    </form>
+</body>
+</html>
