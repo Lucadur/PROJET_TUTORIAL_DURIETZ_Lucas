@@ -4,6 +4,8 @@ import com.junia.demo.repository.AuthorRepository;
 import com.junia.demo.repository.TutoRepository;
 import com.junia.demo.repository.entity.Author;
 import com.junia.demo.repository.entity.Tutorial;
+import com.junia.demo.service.AuthorService;
+import com.junia.demo.service.TutorialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,14 +21,14 @@ import java.time.LocalDate;
 public class TutorialController {
 
     @Autowired
-    private TutoRepository tutoRepository;
+    private TutorialService tutorialService;
 
     @Autowired
-    private AuthorRepository authorRepository;
+    private AuthorService authorService;
 
     @GetMapping("/tutorials")
     public String displayTutorialList(Model model){
-        Iterable<Tutorial> tutorialList = tutoRepository.findAll();
+        Iterable<Tutorial> tutorialList = tutorialService.fetchTuto();
         model.addAttribute("newTutorial", new Tutorial("", LocalDate.now(), 0L, "", new Author()));
         model.addAttribute("tutos", tutorialList);
         return "tutoList";
@@ -36,7 +38,7 @@ public class TutorialController {
     public String addTutorial(@ModelAttribute Tutorial newTutorial,
                               @RequestParam("authorEmail") String authorEmail) {
         // Recherche de l'auteur par email
-        Author author = authorRepository.findByEmail(authorEmail);
+        Author author = authorService.findAuthor(authorEmail);
         if (author == null) {
             // Gérer le cas où l'auteur n'existe pas
             return "redirect:/tutorials";
@@ -46,14 +48,14 @@ public class TutorialController {
         newTutorial.setAuthor(author);
 
         // Ajouter le nouveau tutoriel à la base de données
-        tutoRepository.save(newTutorial);
+        tutorialService.addNewTutorial(newTutorial);
         return "redirect:/tutorials";
     }
 
     @PostMapping("/deleteTutorial")
     public String deleteTutorial(@RequestParam("id") Long id) {
         // Supprimer le tutoriel de la base de données en utilisant son ID
-        tutoRepository.deleteById(id);
+        tutorialService.deleteTutorial(id);
         return "redirect:/tutorials";
     }
 
@@ -61,7 +63,7 @@ public class TutorialController {
     public String updateTutorial(@ModelAttribute Tutorial updatedTutorial,
                                  @RequestParam("authorEmail") String authorEmail) {
         // Recherche de l'auteur par email
-        Author author = authorRepository.findByEmail(authorEmail);
+        Author author = authorService.findAuthor(authorEmail);
         if (author == null) {
             // Gérer le cas où l'auteur n'existe pas
             return "redirect:/tutorials";
@@ -71,7 +73,7 @@ public class TutorialController {
         updatedTutorial.setAuthor(author);
 
         // Mettre à jour le tutoriel dans la base de données en utilisant la méthode save
-        tutoRepository.save(updatedTutorial);
+        tutorialService.modifyTutorial(updatedTutorial);
         return "redirect:/tutorials";
     }
 
